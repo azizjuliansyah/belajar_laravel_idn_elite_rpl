@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('product_category_id')
                 ->nullable()
                 ->constrained('product_categories')
-                ->restrictOnDelete();
+                ->cascadeOnDelete();
         });
     }
 

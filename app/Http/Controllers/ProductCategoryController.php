@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
@@ -11,7 +13,8 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $product_categories = ProductCategory::all();
+        return view('product-categories.index', compact('product_categories'));
     }
 
     /**
@@ -19,7 +22,7 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('product-categories.create');
     }
 
     /**
@@ -27,7 +30,14 @@ class ProductCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => ['required', 'string', 'min:2', 'max:255'],
+            'description' => ['nullable', 'string', 'min:2'],
+        ]);
+
+        ProductCategory::create($data);
+
+        return redirect()->route('product-categories.index')->with('success', 'Berhasil menambahkan data kategori produk');     
     }
 
     /**
@@ -59,6 +69,13 @@ class ProductCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = ProductCategory::findOrFail($id);
+        if (Product::find($id, 'product_category_id')) {
+            return redirect()->route('product-categories.index')->with('error', 'Gagal menghapus data kategori produk, kategori digunakan oleh data lain');
+        }
+        
+        $product->delete();
+
+        return redirect()->route('product-categories.index')->with('success', 'Berhasil menghapus data kategori produk');
     }
 }
