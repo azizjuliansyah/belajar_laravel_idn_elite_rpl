@@ -53,7 +53,8 @@ class ProductCategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $product_category = ProductCategory::findOrFail($id);
+        return view('product-categories.edit', compact('product_category'));
     }
 
     /**
@@ -61,7 +62,16 @@ class ProductCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $product_category = ProductCategory::findOrFail($id);
+        
+        $data = $request->validate([
+            'name' => ['required', 'string', 'min:2', 'max:255'],
+            'description' => ['nullable', 'string', 'min:2'],
+        ]);
+
+        $product_category->update($data);
+
+        return redirect()->route('product-categories.index')->with('success', 'Berhasil mengubah data kategori produk');
     }
 
     /**

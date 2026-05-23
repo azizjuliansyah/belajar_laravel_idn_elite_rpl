@@ -26,15 +26,20 @@
                                 <td>{{ $product_category->description }}</td>
                                 <td>{{ $product_category->created_at }}</td>
                                 <td>
-                                    <form action="{{ route('product-categories.destroy', $product_category->id) }}" method="post">
-                                        @csrf
-                                        @method('delete')
+                                    <div class="d-flex align-items-center gap-2">
+                                        <a href="{{ route('product-categories.edit', $product_category->id) }}"
+                                            class="btn btn-outline-warning">Edit</a>
+                                        <form action="{{ route('product-categories.destroy', $product_category->id) }}"
+                                            method="post">
+                                            @csrf
+                                            @method('delete')
 
-                                        <button type="submit" class="btn btn-outline-danger"
-                                            onclick="return confirm('Yakin ingin menghapus kategori produk ini?')">
-                                            Hapus
-                                        </button>
-                                    </form>
+                                            <button type="submit" class="btn btn-outline-danger"
+                                                onclick="return confirm('Yakin ingin menghapus kategori produk ini?')">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
