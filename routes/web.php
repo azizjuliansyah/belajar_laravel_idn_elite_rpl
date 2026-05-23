@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HelloController;
+use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,3 +19,5 @@ Route::get('/products', [ProductController::class, 'index'])->name('products.ind
 Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
 Route::put('/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
 Route::delete('/products/destroy/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+
+Route::resource('/product-categories', ProductCategoryController::class)->names('product-categories');
